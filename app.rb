@@ -11,7 +11,15 @@ class App < Sinatra::Base
 
   set :env, ENV['RACK_ENV'] || 'development'
 
-  set :etcd_config, Proc.new { YAML.load_file('config/etcd.yml')[settings.env.to_sym] }
+  set :base_path, '/raw/ceph/'
+
+  configure :development, :test do
+    set :etcd_config, Proc.new { YAML.load_file('config/etcd.yml')[settings.env.to_sym] }
+  end
+
+  configure :production do
+    set :etcd_config, Proc.new { YAML.load(ERB.new(File.read('config/etcd_prod.yml')).result)[settings.env.to_sym] }
+  end
 
   set :etcd, Proc.new {
     Etcd.client(
@@ -21,8 +29,6 @@ class App < Sinatra::Base
       password: etcd_config[:password]
     )
   }
-
-  set :base_path, '/raw/ceph/'
 
   get "/ping" do
     'pong'
@@ -54,7 +60,7 @@ class App < Sinatra::Base
       config: config,
       health: health
     }
-   
+
     respond_to do |f|
       f.json { cluster_hash.to_json }
     end
