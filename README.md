@@ -14,6 +14,8 @@ $ cp config/etcd.sample.tml to config/etcd.yml
 ```
 GET /clusters
 GET /clusters/cluster_id
-GET /clusters/:cluster_id/osd
-GET /clusters/:cluster_id/osd/:osd_id
+GET /clusters/:cluster_id/osds
+GET /clusters/:cluster_id/osds/:osd_id
+GET /clusters/:cluster_id/pools
+GET /clusters/:cluster_id/pools/:pool_id
 ```

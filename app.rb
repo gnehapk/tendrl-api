@@ -67,7 +67,7 @@ class App < Sinatra::Base
   end
 
   # get '/clusters/:cluster_id/:object_type'
-  get '/clusters/:cluster_id/osd' do
+  get '/clusters/:cluster_id/osds' do
     cluster = etcd.get("/raw/ceph/#{params[:cluster_id]}")
     osds = JSON.parse(etcd.get("#{cluster.key}/maps/osd_map/data").value.gsub(/'/, "\""))['osds']
 
@@ -77,14 +77,35 @@ class App < Sinatra::Base
   end
 
   # get '/clusters/:cluster_id/:object_type/:object_id'
-  get '/clusters/:cluster_id/osd/:osd_id' do
+  get '/clusters/:cluster_id/osds/:osd_id' do
     cluster = etcd.get("/raw/ceph/#{params[:cluster_id]}")
-    osds_data = JSON.parse(etcd.get("#{cluster.key}/maps/osd_map/data").value.gsub(/'/, "\""))
-    osd = osds_data['osds'].find{|e| e['uuid'] == params[:osd_id] }
-    osd_metadata = osds_data['osd_metadata'].find{|e| e['osd'] == osd['osd'] }
+    data = JSON.parse(etcd.get("#{cluster.key}/maps/osd_map/data").value.gsub(/'/, "\""))
+    osd = data['osds'].find{|e| e['uuid'] == params[:osd_id] }
+    osd_metadata = data['osd_metadata'].find{|e| e['osd'] == osd['osd'] }
 
     respond_to do |f|
       f.json { osd.merge(osd_metadata).to_json }
+    end
+  end
+
+  # get '/clusters/:cluster_id/:object_type'
+  get '/clusters/:cluster_id/pools' do
+    cluster = etcd.get("/raw/ceph/#{params[:cluster_id]}")
+    pools = JSON.parse(etcd.get("#{cluster.key}/maps/osd_map/data").value.gsub(/'/, "\""))['pools']
+
+    respond_to do |f|
+      f.json { pools.to_json }
+    end
+  end
+
+  # get '/clusters/:cluster_id/:object_type/:object_id'
+  get '/clusters/:cluster_id/pools/:pool_id' do
+    cluster = etcd.get("/raw/ceph/#{params[:cluster_id]}")
+    data = JSON.parse(etcd.get("#{cluster.key}/maps/osd_map/data").value.gsub(/'/, "\""))
+    pool = data['pools'].find{|e| e['pool'] == params[:pool_id] }
+
+    respond_to do |f|
+      f.json { pool.to_json }
     end
   end
 

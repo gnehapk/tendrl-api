@@ -29,20 +29,37 @@ describe 'Application' do
 
   end
 
-  context 'Osd' do
+  context 'Osds' do
 
     it 'list' do
-      get "/clusters/#{@cluster_id}/osd", { "CONTENT_TYPE" => "application/json" }
+      get "/clusters/#{@cluster_id}/osds", { "CONTENT_TYPE" => "application/json" }
       expect(last_response.status).to eq 200
       #body = JSON.parse(last_response.body)
     end
 
     it 'details' do
-      get "/clusters/#{@cluster_id}/osd/#{@osd_id}", { "CONTENT_TYPE" => "application/json" }
+      get "/clusters/#{@cluster_id}/osds/#{@osd_id}", { "CONTENT_TYPE" => "application/json" }
       expect(last_response.status).to eq 200
       #body = JSON.parse(last_response.body)
     end
 
   end
+
+  context 'Pools' do
+
+    it 'list' do
+      get "/clusters/#{@cluster_id}/pools", { "CONTENT_TYPE" => "application/json" }
+      expect(last_response.status).to eq 200
+      #body = JSON.parse(last_response.body)
+    end
+
+    it 'details' do
+      get "/clusters/#{@cluster_id}/pools/#{@osd_id}", { "CONTENT_TYPE" => "application/json" }
+      expect(last_response.status).to eq 200
+      #body = JSON.parse(last_response.body)
+    end
+
+  end
+
 
 end
