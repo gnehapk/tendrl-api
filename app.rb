@@ -30,6 +30,10 @@ class App < Sinatra::Base
     )
   }
 
+  get '/' do
+    'Refer https://github.com/anupnivargi/tendrl-api for documentation.'
+  end
+
   get "/ping" do
     'pong'
   end
