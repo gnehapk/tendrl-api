@@ -49,6 +49,7 @@ GEM
       rack-test
       sinatra (~> 1.4.0)
       tilt (>= 1.3, < 3)
+    sinatra-cross_origin (0.3.2)
     tilt (2.0.5)
     unicode-display_width (1.1.0)
 
@@ -63,6 +64,7 @@ DEPENDENCIES
   rubocop
   sinatra
   sinatra-contrib
+  sinatra-cross_origin (~> 0.3.1)
 
 RUBY VERSION
    ruby 2.3.1p112

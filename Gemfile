@@ -5,6 +5,7 @@ ruby '2.3.1'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'etcd'
+gem "sinatra-cross_origin", "~> 0.3.1"
 
 group :development do
   gem 'rubocop', require: false

@@ -6,12 +6,15 @@ Bundler.require :default, ENV['RACK_ENV'].to_sym
 
 class App < Sinatra::Base
   register Sinatra::RespondWith
+  register Sinatra::CrossOrigin
 
   set :root, File.dirname(__FILE__)
 
   set :env, ENV['RACK_ENV'] || 'development'
 
   set :base_path, '/raw/ceph/'
+
+  enable :cross_origin
 
   configure :development, :test do
     set :etcd_config, Proc.new { YAML.load_file('config/etcd.yml')[settings.env.to_sym] }
